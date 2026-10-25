@@ -1,109 +1,205 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DESTROYED TOOLS</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DESTROYED TOOLS | Operations Center</title>
 <style>
+:root{
+ --bg:#030705;--panel:#09130d;--line:#19452c;
+ --green:#00ff88;--muted:#7d9e89;--white:#e3ffec;
+}
 *{box-sizing:border-box}
 body{
- margin:0;background:#030705;color:#00ff88;
- font-family:Consolas,monospace;padding:20px
+ margin:0;background:var(--bg);color:var(--white);
+ font:14px Consolas,monospace;
 }
-.wrap{max-width:760px;margin:auto}
 header{
- border-bottom:1px solid #164b30;
- padding:15px 0;margin-bottom:22px
+ padding:22px 18px;background:#07100a;
+ border-bottom:1px solid var(--line)
 }
-h1{font-size:25px;letter-spacing:3px}
-.muted{color:#749b83;font-size:12px}
+.logo{font-size:24px;color:var(--green);font-weight:bold;letter-spacing:2px}
+.sub{margin-top:8px;color:var(--muted);font-size:11px}
+.status{margin-top:16px;color:var(--green);font-size:12px}
+.layout{max-width:1100px;margin:auto;padding:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
 .panel{
- background:#08110b;border:1px solid #17482d;
- border-radius:8px;padding:18px;margin:14px 0
+ padding:17px;background:var(--panel);
+ border:1px solid var(--line);border-radius:7px;
+ margin-bottom:15px;min-width:0
 }
-input{
- width:100%;padding:13px;background:#020503;
- border:1px solid #1b633a;color:#00ff88;
- border-radius:5px;font-family:inherit
+h3{color:var(--green);font-size:14px;margin:0 0 15px}
+.label{display:block;color:var(--muted);font-size:11px;margin:12px 0 6px}
+input,select{
+ width:100%;padding:12px;background:#020503;
+ color:var(--green);border:1px solid var(--line);
+ border-radius:4px;font:inherit
 }
 button{
- width:100%;padding:13px;margin-top:12px;
- background:#062514;color:#00ff88;
- border:1px solid #00a957;border-radius:5px;
- font-family:inherit;font-weight:bold
+ padding:12px;background:#092817;color:var(--green);
+ border:1px solid #167143;border-radius:4px;
+ width:100%;font:inherit;font-weight:bold;cursor:pointer
 }
-button:active{background:#124b2b}
+button:hover{background:#104326}
+button:disabled{opacity:.5}
+.row{display:flex;gap:10px;align-items:center}
+.row button{flex:1}
+.stat{
+ border:1px solid var(--line);padding:12px;
+ background:#050b07;border-radius:4px;overflow-wrap:anywhere
+}
+.stat small{display:block;color:var(--muted);margin-bottom:8px}
+.stat strong{color:var(--green);font-size:14px}
 #terminal{
- background:#010302;border:1px solid #143d27;
- min-height:180px;padding:15px;line-height:1.9;
- overflow-wrap:anywhere;font-size:13px
+ background:#010302;border:1px solid var(--line);
+ padding:14px;min-height:190px;white-space:pre-wrap;
+ overflow-wrap:anywhere;line-height:1.8;color:var(--green)
 }
-.bar{height:7px;background:#15251a;margin-top:15px}
-#progress{height:100%;width:0;background:#00ff88}
-.green{color:#00ff88}
-footer{margin-top:24px;color:#63826d;font-size:11px}
+.track{height:5px;background:#14251a;margin-top:12px}
+#bar{height:100%;width:0;background:var(--green);transition:width .3s}
+.output{color:var(--muted);line-height:1.8;overflow-wrap:anywhere}
+footer{padding:20px;text-align:center;color:#65826e;font-size:11px}
 </style>
 </head>
 <body>
-<div class="wrap">
 <header>
- <h1>DESTROYED TOOLS</h1>
- <div class="muted">CYBER OPERATIONS CONSOLE</div>
- <p>● SYSTEM READY</p>
+ <div class="logo">DESTROYED TOOLS</div>
+ <div class="sub">DOMAIN OPERATIONS CENTER / WEB UTILITIES</div>
+ <div class="status">● CONSOLE READY</div>
 </header>
 
-<div class="panel">
- <h3>WEBSITE ANALYZER</h3>
- <input id="url" type="url"
- placeholder="https://example.com">
- <button onclick="analyze()">ANALYZE DOMAIN</button>
-</div>
+<main class="layout">
+ <section class="grid">
+  <div class="panel">
+   <h3>DOMAIN ANALYZER</h3>
+   <label class="label" for="url">TARGET URL</label>
+   <input id="url" type="url" placeholder="Enter a website URL">
+   <label class="label" for="mode">ANALYSIS MODE</label>
+   <select id="mode">
+    <option value="full">Full URL parsing</option>
+    <option value="domain">Domain details</option>
+    <option value="path">Path and protocol</option>
+   </select>
+   <button style="margin-top:14px" onclick="analyze()">ANALYZE URL</button>
+  </div>
 
-<div class="panel">
- <h3>TERMINAL OUTPUT</h3>
- <div id="terminal">root@destroyed:~$ Ready for input...</div>
- <div class="bar"><div id="progress"></div></div>
-</div>
+  <div class="panel">
+   <h3>DOMAIN DETAILS</h3>
+   <div class="stat"><small>HOSTNAME</small><strong id="host">—</strong></div>
+   <div class="stat" style="margin-top:9px"><small>PROTOCOL</small><strong id="protocol">—</strong></div>
+   <div class="stat" style="margin-top:9px"><small>PATH</small><strong id="path">—</strong></div>
+  </div>
 
-<div class="panel">
- <h3>SYSTEM STATUS</h3>
- <p>Interface: <span class="green">ACTIVE</span></p>
- <p>Console: <span class="green">READY</span></p>
- <p class="muted">Website status is not verified by this interface.</p>
-</div>
+  <div class="panel">
+   <h3>OPERATIONS STATUS</h3>
+   <div class="stat"><small>INTERFACE</small><strong>ACTIVE</strong></div>
+   <div class="stat" style="margin-top:9px"><small>URL PARSER</small><strong>AVAILABLE</strong></div>
+   <div class="stat" style="margin-top:9px"><small>LAST REQUEST</small><strong id="last">NONE</strong></div>
+  </div>
+ </section>
 
-<footer>DESTROYED TOOLS // CYBER INTERFACE</footer>
-</div>
+ <section class="panel">
+  <h3>COMMAND TERMINAL</h3>
+  <div id="terminal">root@destroyed:~$ Awaiting command...</div>
+  <div class="track"><div id="bar"></div></div>
+  <div class="row" style="margin-top:14px">
+   <button onclick="clearTerminal()">CLEAR TERMINAL</button>
+   <button onclick="copyReport()">COPY REPORT</button>
+  </div>
+ </section>
+
+ <section class="panel">
+  <h3>ANALYSIS REPORT</h3>
+  <div id="report" class="output">No report generated.</div>
+ </section>
+</main>
+
+<footer>DESTROYED TOOLS · DOMAIN UTILITIES</footer>
 
 <script>
+const $ = id => document.getElementById(id);
+let reportText = "";
+
 function analyze(){
- const input=document.getElementById("url").value.trim();
- const term=document.getElementById("terminal");
- const bar=document.getElementById("progress");
- let domain;
+ const raw = $("url").value.trim();
+ let u;
 
  try{
-  const parsed=new URL(input);
-  if(!["http:","https:"].includes(parsed.protocol))
-   throw new Error();
-  domain=parsed.hostname;
+  u = new URL(raw);
+  if(!["http:","https:"].includes(u.protocol)) throw Error();
+  if(!u.hostname.includes(".")) throw Error();
  }catch{
-  term.textContent="ERROR: Enter a valid website URL.";
+  $("terminal").textContent =
+   "ERROR: Invalid URL.\nEnter a complete HTTP or HTTPS website address.";
+  $("bar").style.width="0";
   return;
  }
 
- bar.style.width="0";
- term.textContent=
-  "root@destroyed:~$ analyze --domain "+domain+"\n"+
-  "> Parsing URL...\n"+
-  "> Reading hostname...\n"+
-  "> Preparing domain report...\n"+
-  "> URL analysis complete.\n"+
-  "Domain: "+domain+"\n"+
-  "Protocol: "+new URL(input).protocol+"\n"+
-  "Result: INPUT VALIDATED";
+ const mode=$("mode").value;
+ const now=new Date().toLocaleString();
+ $("host").textContent=u.hostname;
+ $("protocol").textContent=u.protocol.slice(0,-1).toUpperCase();
+ $("path").textContent=u.pathname || "/";
+ $("last").textContent=now;
+ $("bar").style.width="100%";
 
- bar.style.width="100%";
+ const lines=[
+  "root@destroyed:~$ domain-analyzer",
+  "Initializing URL parser...",
+  "Validating URL format...",
+  "Extracting hostname...",
+  "Reading protocol and path...",
+  "Parsing completed.",
+  "",
+  "HOST: "+u.hostname,
+  "PROTOCOL: "+u.protocol.slice(0,-1).toUpperCase(),
+  "PATH: "+(u.pathname || "/"),
+  "QUERY PARAMETERS: "+(u.search ? "PRESENT" : "NONE"),
+  "FRAGMENT: "+(u.hash ? "PRESENT" : "NONE"),
+  "RESULT: URL FORMAT VALID"
+ ];
+
+ if(mode==="domain"){
+  lines.splice(1,5);
+  lines.push("MODE: DOMAIN DETAILS");
+ }else if(mode==="path"){
+  lines.splice(1,5);
+  lines.push("MODE: PROTOCOL AND PATH");
+ }
+
+ $("terminal").textContent=lines.join("\n");
+ reportText=[
+  "DESTROYED TOOLS — URL ANALYSIS REPORT",
+  "Timestamp: "+now,
+  "Hostname: "+u.hostname,
+  "Protocol: "+u.protocol,
+  "Path: "+u.pathname,
+  "Query parameters: "+(u.search ? "Present" : "None"),
+  "Fragment: "+(u.hash ? "Present" : "None"),
+  "Validation: Valid URL format"
+ ].join("\n");
+ $("report").textContent=reportText;
+}
+
+function clearTerminal(){
+ $("terminal").textContent="root@destroyed:~$ Awaiting command...";
+ $("bar").style.width="0";
+ $("report").textContent="No report generated.";
+ reportText="";
+}
+
+async function copyReport(){
+ if(!reportText){
+  $("terminal").textContent="No report available. Analyze a URL first.";
+  return;
+ }
+ try{
+  await navigator.clipboard.writeText(reportText);
+  $("terminal").textContent="Report copied to clipboard.";
+ }catch{
+  $("terminal").textContent="Clipboard unavailable. Select and copy the report manually.";
+ }
 }
 </script>
 </body>
