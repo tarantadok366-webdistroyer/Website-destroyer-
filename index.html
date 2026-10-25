@@ -3,204 +3,459 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DESTROYED TOOLS | Operations Center</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#030705">
+<title>DESTROYED TOOLS</title>
+
 <style>
-:root{
- --bg:#030705;--panel:#09130d;--line:#19452c;
- --green:#00ff88;--muted:#7d9e89;--white:#e3ffec;
+:root {
+  --bg: #030705;
+  --panel: #09130d;
+  --line: #19452c;
+  --green: #00ff88;
+  --muted: #7d9e89;
+  --white: #e3ffec;
 }
-*{box-sizing:border-box}
-body{
- margin:0;background:var(--bg);color:var(--white);
- font:14px Consolas,monospace;
+
+* {
+  box-sizing: border-box;
 }
-header{
- padding:22px 18px;background:#07100a;
- border-bottom:1px solid var(--line)
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--white);
+  font-family: Consolas, monospace;
+  font-size: 14px;
 }
-.logo{font-size:24px;color:var(--green);font-weight:bold;letter-spacing:2px}
-.sub{margin-top:8px;color:var(--muted);font-size:11px}
-.status{margin-top:16px;color:var(--green);font-size:12px}
-.layout{max-width:1100px;margin:auto;padding:18px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
-.panel{
- padding:17px;background:var(--panel);
- border:1px solid var(--line);border-radius:7px;
- margin-bottom:15px;min-width:0
+
+header {
+  padding: 25px 20px;
+  background: #07100a;
+  border-bottom: 1px solid var(--line);
 }
-h3{color:var(--green);font-size:14px;margin:0 0 15px}
-.label{display:block;color:var(--muted);font-size:11px;margin:12px 0 6px}
-input,select{
- width:100%;padding:12px;background:#020503;
- color:var(--green);border:1px solid var(--line);
- border-radius:4px;font:inherit
+
+.logo {
+  font-size: clamp(22px, 5vw, 32px);
+  color: var(--green);
+  font-weight: bold;
+  letter-spacing: 3px;
+  overflow-wrap: anywhere;
 }
-button{
- padding:12px;background:#092817;color:var(--green);
- border:1px solid #167143;border-radius:4px;
- width:100%;font:inherit;font-weight:bold;cursor:pointer
+
+.subtitle {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
 }
-button:hover{background:#104326}
-button:disabled{opacity:.5}
-.row{display:flex;gap:10px;align-items:center}
-.row button{flex:1}
-.stat{
- border:1px solid var(--line);padding:12px;
- background:#050b07;border-radius:4px;overflow-wrap:anywhere
+
+.status {
+  margin-top: 20px;
+  color: var(--green);
 }
-.stat small{display:block;color:var(--muted);margin-bottom:8px}
-.stat strong{color:var(--green);font-size:14px}
-#terminal{
- background:#010302;border:1px solid var(--line);
- padding:14px;min-height:190px;white-space:pre-wrap;
- overflow-wrap:anywhere;line-height:1.8;color:var(--green)
+
+.container {
+  max-width: 1100px;
+  padding: 20px;
+  margin: auto;
 }
-.track{height:5px;background:#14251a;margin-top:12px}
-#bar{height:100%;width:0;background:var(--green);transition:width .3s}
-.output{color:var(--muted);line-height:1.8;overflow-wrap:anywhere}
-footer{padding:20px;text-align:center;color:#65826e;font-size:11px}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 250px), 1fr)
+  );
+  gap: 15px;
+}
+
+.panel {
+  min-width: 0;
+  padding: 20px;
+  margin-bottom: 15px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+
+h2 {
+  margin: 0 0 20px;
+  color: var(--green);
+  font-size: 19px;
+}
+
+h3 {
+  margin: 0 0 15px;
+  color: var(--green);
+  font-size: 15px;
+}
+
+.label {
+  display: block;
+  margin: 14px 0 7px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 13px;
+  background: #020503;
+  color: var(--green);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font: inherit;
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--green);
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 12px;
+  background: #092817;
+  color: var(--green);
+  border: 1px solid #167143;
+  border-radius: 5px;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #104326;
+}
+
+button:active {
+  transform: scale(.99);
+}
+
+.stat {
+  padding: 13px;
+  background: #050b07;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+}
+
+.stat + .stat {
+  margin-top: 10px;
+}
+
+.stat small {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.stat strong {
+  color: var(--green);
+  overflow-wrap: anywhere;
+}
+
+#terminal {
+  min-height: 190px;
+  padding: 15px;
+  background: #010302;
+  border: 1px solid var(--line);
+  color: var(--green);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+}
+
+.track {
+  height: 5px;
+  margin-top: 15px;
+  background: #14251a;
+}
+
+#bar {
+  width: 0;
+  height: 100%;
+  background: var(--green);
+  transition: width .3s;
+}
+
+.report {
+  color: var(--muted);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.green {
+  color: var(--green);
+}
+
+footer {
+  padding: 25px 15px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+}
 </style>
 </head>
+
 <body>
+
 <header>
- <div class="logo">DESTROYED TOOLS</div>
- <div class="sub">DOMAIN OPERATIONS CENTER / WEB UTILITIES</div>
- <div class="status">● CONSOLE READY</div>
+  <div class="logo">DESTROYED TOOLS</div>
+  <div class="subtitle">
+    CYBER OPERATIONS CENTER
+  </div>
+  <div class="status">
+    ● SYSTEM READY
+  </div>
 </header>
 
-<main class="layout">
- <section class="grid">
-  <div class="panel">
-   <h3>DOMAIN ANALYZER</h3>
-   <label class="label" for="url">TARGET URL</label>
-   <input id="url" type="url" placeholder="Enter a website URL">
-   <label class="label" for="mode">ANALYSIS MODE</label>
-   <select id="mode">
-    <option value="full">Full URL parsing</option>
-    <option value="domain">Domain details</option>
-    <option value="path">Path and protocol</option>
-   </select>
-   <button style="margin-top:14px" onclick="analyze()">ANALYZE URL</button>
-  </div>
+<main class="container">
 
-  <div class="panel">
-   <h3>DOMAIN DETAILS</h3>
-   <div class="stat"><small>HOSTNAME</small><strong id="host">—</strong></div>
-   <div class="stat" style="margin-top:9px"><small>PROTOCOL</small><strong id="protocol">—</strong></div>
-   <div class="stat" style="margin-top:9px"><small>PATH</small><strong id="path">—</strong></div>
-  </div>
+  <section class="grid">
 
-  <div class="panel">
-   <h3>OPERATIONS STATUS</h3>
-   <div class="stat"><small>INTERFACE</small><strong>ACTIVE</strong></div>
-   <div class="stat" style="margin-top:9px"><small>URL PARSER</small><strong>AVAILABLE</strong></div>
-   <div class="stat" style="margin-top:9px"><small>LAST REQUEST</small><strong id="last">NONE</strong></div>
-  </div>
- </section>
+    <div class="panel">
+      <h2>WEBSITE ANALYZER</h2>
 
- <section class="panel">
-  <h3>COMMAND TERMINAL</h3>
-  <div id="terminal">root@destroyed:~$ Awaiting command...</div>
-  <div class="track"><div id="bar"></div></div>
-  <div class="row" style="margin-top:14px">
-   <button onclick="clearTerminal()">CLEAR TERMINAL</button>
-   <button onclick="copyReport()">COPY REPORT</button>
-  </div>
- </section>
+      <label class="label" for="url">
+        WEBSITE URL
+      </label>
 
- <section class="panel">
-  <h3>ANALYSIS REPORT</h3>
-  <div id="report" class="output">No report generated.</div>
- </section>
+      <input
+        id="url"
+        type="url"
+        placeholder=""
+        autocomplete="url"
+        spellcheck="false"
+      >
+
+      <label class="label" for="mode">
+        ANALYSIS MODE
+      </label>
+
+      <select id="mode">
+        <option value="full">Full URL Analysis</option>
+        <option value="domain">Domain Details</option>
+        <option value="path">Protocol and Path</option>
+      </select>
+
+      <button type="button" onclick="analyze()">
+        ANALYZE DOMAIN
+      </button>
+    </div>
+
+    <div class="panel">
+      <h2>DOMAIN DETAILS</h2>
+
+      <div class="stat">
+        <small>HOSTNAME</small>
+        <strong id="host">—</strong>
+      </div>
+
+      <div class="stat">
+        <small>PROTOCOL</small>
+        <strong id="protocol">—</strong>
+      </div>
+
+      <div class="stat">
+        <small>PATH</small>
+        <strong id="path">—</strong>
+      </div>
+
+      <div class="stat">
+        <small>QUERY PARAMETERS</small>
+        <strong id="query">—</strong>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>SYSTEM STATUS</h2>
+
+      <div class="stat">
+        <small>INTERFACE</small>
+        <strong>ACTIVE</strong>
+      </div>
+
+      <div class="stat">
+        <small>URL PARSER</small>
+        <strong>AVAILABLE</strong>
+      </div>
+
+      <div class="stat">
+        <small>LAST REQUEST</small>
+        <strong id="last">—</strong>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="panel">
+    <h2>TERMINAL OUTPUT</h2>
+
+    <div id="terminal">root@destroyed:~$ Ready.</div>
+
+    <div class="track">
+      <div id="bar"></div>
+    </div>
+
+    <div class="grid" style="margin-top:12px">
+      <button type="button" onclick="clearTerminal()">
+        CLEAR TERMINAL
+      </button>
+
+      <button type="button" onclick="copyReport()">
+        COPY REPORT
+      </button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>ANALYSIS REPORT</h2>
+    <div id="report" class="report">
+      No report generated.
+    </div>
+  </section>
+
 </main>
 
-<footer>DESTROYED TOOLS · DOMAIN UTILITIES</footer>
+<footer>
+  DESTROYED TOOLS · WEB UTILITIES
+</footer>
 
 <script>
 const $ = id => document.getElementById(id);
+
 let reportText = "";
 
-function analyze(){
- const raw = $("url").value.trim();
- let u;
+function analyze() {
+  const raw = $("url").value.trim();
+  const terminal = $("terminal");
+  const bar = $("bar");
 
- try{
-  u = new URL(raw);
-  if(!["http:","https:"].includes(u.protocol)) throw Error();
-  if(!u.hostname.includes(".")) throw Error();
- }catch{
+  let url;
+
+  try {
+    url = new URL(raw);
+
+    if (
+      !["http:", "https:"].includes(url.protocol) ||
+      !url.hostname.includes(".")
+    ) {
+      throw new Error("Invalid URL");
+    }
+  } catch {
+    terminal.textContent =
+      "ERROR: Invalid website URL.\n" +
+      "Check the address and try again.";
+
+    bar.style.width = "0";
+    return;
+  }
+
+  const mode = $("mode").value;
+  const now = new Date().toLocaleString();
+
+  $("host").textContent = url.hostname;
+  $("protocol").textContent =
+    url.protocol.replace(":", "").toUpperCase();
+  $("path").textContent = url.pathname || "/";
+  $("query").textContent =
+    url.search ? "PRESENT" : "NONE";
+  $("last").textContent = now;
+
+  bar.style.width = "100%";
+
+  const lines = [
+    "root@destroyed:~$ analyze",
+    "------------------------------",
+    "Parsing URL...",
+    "Extracting domain information...",
+    "Validating URL structure...",
+    "",
+    "HOST: " + url.hostname,
+    "PROTOCOL: " + url.protocol.replace(":", "").toUpperCase(),
+    "PATH: " + (url.pathname || "/"),
+    "QUERY PARAMETERS: " + (url.search ? "PRESENT" : "NONE"),
+    "FRAGMENT: " + (url.hash ? "PRESENT" : "NONE"),
+    "",
+    "RESULT: URL FORMAT VALID"
+  ];
+
+  if (mode === "domain") {
+    terminal.textContent = [
+      "root@destroyed:~$ domain-details",
+      "",
+      "HOST: " + url.hostname,
+      "RESULT: DOMAIN PARSED"
+    ].join("\n");
+  } else if (mode === "path") {
+    terminal.textContent = [
+      "root@destroyed:~$ path-analysis",
+      "",
+      "PROTOCOL: " + url.protocol,
+      "PATH: " + (url.pathname || "/"),
+      "RESULT: PARSING COMPLETE"
+    ].join("\n");
+  } else {
+    terminal.textContent = lines.join("\n");
+  }
+
+  reportText = [
+    "DESTROYED TOOLS — URL REPORT",
+    "Timestamp: " + now,
+    "Hostname: " + url.hostname,
+    "Protocol: " + url.protocol,
+    "Path: " + (url.pathname || "/"),
+    "Query parameters: " + (url.search ? "Present" : "None"),
+    "Fragment: " + (url.hash ? "Present" : "None"),
+    "Validation: URL format valid"
+  ].join("\n");
+
+  $("report").textContent = reportText;
+}
+
+function clearTerminal() {
   $("terminal").textContent =
-   "ERROR: Invalid URL.\nEnter a complete HTTP or HTTPS website address.";
-  $("bar").style.width="0";
-  return;
- }
+    "root@destroyed:~$ Ready.";
 
- const mode=$("mode").value;
- const now=new Date().toLocaleString();
- $("host").textContent=u.hostname;
- $("protocol").textContent=u.protocol.slice(0,-1).toUpperCase();
- $("path").textContent=u.pathname || "/";
- $("last").textContent=now;
- $("bar").style.width="100%";
+  $("bar").style.width = "0";
+  $("report").textContent = "No report generated.";
 
- const lines=[
-  "root@destroyed:~$ domain-analyzer",
-  "Initializing URL parser...",
-  "Validating URL format...",
-  "Extracting hostname...",
-  "Reading protocol and path...",
-  "Parsing completed.",
-  "",
-  "HOST: "+u.hostname,
-  "PROTOCOL: "+u.protocol.slice(0,-1).toUpperCase(),
-  "PATH: "+(u.pathname || "/"),
-  "QUERY PARAMETERS: "+(u.search ? "PRESENT" : "NONE"),
-  "FRAGMENT: "+(u.hash ? "PRESENT" : "NONE"),
-  "RESULT: URL FORMAT VALID"
- ];
+  $("host").textContent = "—";
+  $("protocol").textContent = "—";
+  $("path").textContent = "—";
+  $("query").textContent = "—";
+  $("last").textContent = "—";
 
- if(mode==="domain"){
-  lines.splice(1,5);
-  lines.push("MODE: DOMAIN DETAILS");
- }else if(mode==="path"){
-  lines.splice(1,5);
-  lines.push("MODE: PROTOCOL AND PATH");
- }
-
- $("terminal").textContent=lines.join("\n");
- reportText=[
-  "DESTROYED TOOLS — URL ANALYSIS REPORT",
-  "Timestamp: "+now,
-  "Hostname: "+u.hostname,
-  "Protocol: "+u.protocol,
-  "Path: "+u.pathname,
-  "Query parameters: "+(u.search ? "Present" : "None"),
-  "Fragment: "+(u.hash ? "Present" : "None"),
-  "Validation: Valid URL format"
- ].join("\n");
- $("report").textContent=reportText;
+  reportText = "";
 }
 
-function clearTerminal(){
- $("terminal").textContent="root@destroyed:~$ Awaiting command...";
- $("bar").style.width="0";
- $("report").textContent="No report generated.";
- reportText="";
-}
+async function copyReport() {
+  if (!reportText) {
+    $("terminal").textContent =
+      "No report available. Analyze a URL first.";
+    return;
+  }
 
-async function copyReport(){
- if(!reportText){
-  $("terminal").textContent="No report available. Analyze a URL first.";
-  return;
- }
- try{
-  await navigator.clipboard.writeText(reportText);
-  $("terminal").textContent="Report copied to clipboard.";
- }catch{
-  $("terminal").textContent="Clipboard unavailable. Select and copy the report manually.";
- }
+  try {
+    await navigator.clipboard.writeText(reportText);
+
+    $("terminal").textContent =
+      "Report copied successfully.";
+  } catch {
+    $("terminal").textContent =
+      "Copy unavailable. Select the report and copy manually.";
+  }
 }
 </script>
+
 </body>
 </html>
